@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -33,9 +34,10 @@ public interface FixturesMapper {
     List<FixturesDAO> mapListToDAO(List<FixturesDTO> fixturesDTOList);
 
     default String mapToString(Instant instant) {
-        // Formatea el Instant como String
-        return DateTimeFormatter.ISO_INSTANT.format(instant);
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(instant.atZone(ZoneId.of("UTC")));
     }
+
+
 
     default Instant mapToInstant(String dateString) {
         // Parsea el String a Instant

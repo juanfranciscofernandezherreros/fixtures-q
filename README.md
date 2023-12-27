@@ -11,7 +11,7 @@ $ curl -X GET "http://localhost:8099/api/fixtures?homeTeam=Murcia"
 
 Solo con nombre de equipo visitante
 
-$ curl -X GET "http://localhost:8099/api/fixtures?awayTeam=Murcia"
+$ curl -X GET "http://localhost:8099/api/fixtures?awayTeam=TeamAA"
 
 Equipos locales y visitants
 
@@ -23,7 +23,7 @@ curl -X GET "http://localhost:8099/api/fixtures?homeTeam=Valencia&awayTeam=Grana
 
 curl -X POST -H "Content-Type: application/json" -d '[
 {
-"matchId": "1",
+"matchId": "3",
 "eventTime": "2023-12-24T12:00:00Z",
 "homeTeam": "TeamA",
 "awayTeam": "TeamB",
@@ -33,7 +33,7 @@ curl -X POST -H "Content-Type: application/json" -d '[
 "hasExecuted": true
 },
 {
-"matchId": "2",
+"matchId": "4",
 "eventTime": "2023-12-25T15:30:00Z",
 "homeTeam": "TeamC",
 "awayTeam": "TeamD",
