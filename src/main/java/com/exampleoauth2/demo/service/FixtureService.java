@@ -1,9 +1,10 @@
 package com.exampleoauth2.demo.service;
 
 import com.exampleoauth2.demo.dto.FixturesDTO;
-import com.exampleoauth2.demo.dto.MatchsDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FixtureService {
 
@@ -13,4 +14,6 @@ public interface FixtureService {
     List<FixturesDTO> updateAll(List<FixturesDTO> fixturesList);
 
     FixturesDTO findMatchByMatchId(String matchId);
+
+    Page<FixturesDTO> findAllByDynamicCriteria(Map<String, String> queryParams, int page, int size);
 }

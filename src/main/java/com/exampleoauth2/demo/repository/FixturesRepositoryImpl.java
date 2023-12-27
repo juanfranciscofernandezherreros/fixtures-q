@@ -1,6 +1,10 @@
 package com.exampleoauth2.demo.repository;
 
-import com.exampleoauth2.demo.dto.MatchsDTO;
+import com.exampleoauth2.demo.dao.FixturesDAO;
+import com.exampleoauth2.demo.dto.FixturesDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,21 +16,21 @@ import java.util.Map;
 
 @Repository
 public class FixturesRepositoryImpl {
-
     private final MongoTemplate mongoTemplate;
-
     public FixturesRepositoryImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public List<MatchsDTO> findAllByDynamicCriteria(Map<String, String> dynamicCriteria) {
+    public Page<FixturesDAO> findAllByDynamicCriteriaWithPagination(Map<String, String> dynamicCriteria, int page, int size) {
         Query query = buildQuery(dynamicCriteria);
-        return mongoTemplate.find(query, MatchsDTO.class);
+        long count = mongoTemplate.count(query, FixturesDAO.class);
+        query.with(PageRequest.of(page, size));
+        List<FixturesDAO> resultList = mongoTemplate.find(query, FixturesDAO.class);
+        return new PageImpl<>(resultList, PageRequest.of(page, size), count);
     }
 
     private Query buildQuery(Map<String, String> dynamicCriteria) {
         Query query = new Query();
-
         // Verificar si hay dos entradas en el HashMap
         if (dynamicCriteria.size() == 2 && dynamicCriteria.containsKey("homeTeam") && dynamicCriteria.containsKey("awayTeam")) {
             // Obtener los dos valores del Map

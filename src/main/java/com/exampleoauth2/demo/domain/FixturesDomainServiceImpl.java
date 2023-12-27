@@ -4,10 +4,13 @@ import com.exampleoauth2.demo.dao.FixturesDAO;
 import com.exampleoauth2.demo.dto.FixturesDTO;
 import com.exampleoauth2.demo.mapper.FixturesMapper;
 import com.exampleoauth2.demo.repository.FixturesRepository;
+import com.exampleoauth2.demo.repository.FixturesRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,9 @@ public class FixturesDomainServiceImpl implements FixturesDomainService {
 
     @Autowired
     private FixturesRepository fixturesRepository;
+
+    @Autowired
+    private FixturesRepositoryImpl fixturesRepositoryImpl;
 
     @Autowired
     private FixturesMapper fixturesMapper;
@@ -46,6 +52,10 @@ public class FixturesDomainServiceImpl implements FixturesDomainService {
             // Return null or throw an exception, depending on your design
             return null;
         }
+    }
+    @Override
+    public Page<FixturesDTO> findAllByDynamicCriteria(Map<String, String> queryParams, int page, int size) {
+        return fixturesMapper.mapToPageDTO(fixturesRepositoryImpl.findAllByDynamicCriteriaWithPagination(queryParams, page, size));
     }
 
 }

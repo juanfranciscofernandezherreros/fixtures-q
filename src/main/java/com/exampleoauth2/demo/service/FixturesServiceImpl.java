@@ -2,20 +2,22 @@ package com.exampleoauth2.demo.service;
 
 import com.exampleoauth2.demo.domain.FixturesDomainService;
 import com.exampleoauth2.demo.dto.FixturesDTO;
-import com.exampleoauth2.demo.dto.MatchsDTO;
 import com.exampleoauth2.demo.mapper.FixturesMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
-public class FxturesServiceImpl implements FixtureService {
+public class FixturesServiceImpl implements FixtureService {
 
     @Autowired
     private FixturesDomainService fixturesDomainService;
-
     @Autowired
     private FixturesMapper fixturesMapper;
     
@@ -37,6 +39,11 @@ public class FxturesServiceImpl implements FixtureService {
     @Override
     public FixturesDTO findMatchByMatchId(String matchId) {
         return fixturesDomainService.findById(matchId);
+    }
+
+    @Override
+    public Page<FixturesDTO> findAllByDynamicCriteria(Map<String, String> queryParams,int page, int size) {
+        return fixturesDomainService.findAllByDynamicCriteria(queryParams,page,size);
     }
 
 }

@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -38,5 +40,10 @@ public interface FixturesMapper {
     default Instant mapToInstant(String dateString) {
         // Parsea el String a Instant
         return Instant.parse(dateString);
+    }
+
+    default Page<FixturesDTO> mapToPageDTO(Page<FixturesDAO> fixturesDAOPage) {
+        List<FixturesDTO> fixturesDTOList = mapListToDTO(fixturesDAOPage.getContent());
+        return new PageImpl<>(fixturesDTOList, fixturesDAOPage.getPageable(), fixturesDAOPage.getTotalElements());
     }
 }
