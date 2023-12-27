@@ -1,6 +1,7 @@
 package com.exampleoauth2.demo.controller;
 
 import com.exampleoauth2.demo.dto.FixturesDTO;
+import com.exampleoauth2.demo.exception.MyEntityNotFoundException;
 import com.exampleoauth2.demo.repository.FixturesRepositoryImpl;
 import com.exampleoauth2.demo.service.FixtureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +29,17 @@ public class FixturesController {
 
     @GetMapping("{matchId}")
     public ResponseEntity<FixturesDTO> findById(@PathVariable("matchId") String matchId) {
-        // Implement the logic to fetch a single match by matchId from your service
-        FixturesDTO match = fixtureService.findMatchByMatchId(matchId);
-        // Check if a match was found
-        if (match != null) {
-            // Return a successful response with the match
-            return new ResponseEntity<>(match, HttpStatus.OK);
-        } else {
-            // Return a not found response if no match was found
+        try {
+            FixturesDTO fixture = fixtureService.findMatchByMatchId(matchId);
+            return new ResponseEntity<>(fixture, HttpStatus.OK);
+        } catch (MyEntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+
     @PostMapping
     public ResponseEntity<List<FixturesDTO>> saveAll(@RequestBody List<FixturesDTO> fixturesList) {
         List<FixturesDTO> fixturesDTOList = fixtureService.saveAll(fixturesList);
