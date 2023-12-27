@@ -92,7 +92,7 @@ public class MatchsDTO {
 
     @Override
     public String toString() {
-        return "MatchsDTO{" +
+        return "FixturesDAO{" +
                 "matchId='" + matchId + '\'' +
                 ", eventTime='" + eventTime + '\'' +
                 ", homeTeam='" + homeTeam + '\'' +

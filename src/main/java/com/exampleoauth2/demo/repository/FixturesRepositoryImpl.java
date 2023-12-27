@@ -1,4 +1,4 @@
-package com.exampleoauth2.demo;
+package com.exampleoauth2.demo.repository;
 
 import com.exampleoauth2.demo.dto.MatchsDTO;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class CustomMatchRepositoryImpl {
+public class FixturesRepositoryImpl {
 
     private final MongoTemplate mongoTemplate;
 
-    public CustomMatchRepositoryImpl(MongoTemplate mongoTemplate) {
+    public FixturesRepositoryImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
