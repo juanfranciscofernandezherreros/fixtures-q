@@ -20,5 +20,7 @@ public interface FixturesDomainService {
     Page<FixturesDTO> findAllByDynamicCriteria(Map<String, String> queryParams, int page, int size);
 
     public List<FixturesDTO> getFixturesForToday();
+    public List<FixturesDTO> getFixturesForTomorrow();
+
     public List<FixturesDTO> getFixturesForSpecificDates(List<LocalDate> dates);
 }

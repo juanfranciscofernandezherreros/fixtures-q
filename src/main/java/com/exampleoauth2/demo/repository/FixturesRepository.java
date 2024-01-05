@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FixturesRepository extends MongoRepository<FixturesDAO, Long> {
+public interface FixturesRepository extends MongoRepository<FixturesDAO, String> {
 
     void deleteByMatchIdIn(List<String> matchIds);
     @Query("{'matchId': { $in: ?0 }}")

@@ -20,6 +20,9 @@ public interface FixtureService {
 
     public List<FixturesDTO> getFixturesForToday();
 
+    public List<FixturesDTO> getFixturesForTomorrow();
+
+
     public List<FixturesDTO> getFixturesForSpecificDates(List<LocalDate> dates);
 
 }

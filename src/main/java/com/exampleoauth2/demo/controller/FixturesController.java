@@ -34,34 +34,15 @@ public class FixturesController {
         } else if (params.containsKey("today")) {
             List<FixturesDTO> fixtures = fixtureService.getFixturesForToday();
             return new ResponseEntity<>(fixtures, HttpStatus.OK);
+        } else if (params.containsKey("tomorrow")) {
+            List<FixturesDTO> fixtures = fixtureService.getFixturesForTomorrow();
+            return new ResponseEntity<>(fixtures, HttpStatus.OK);
         } else {
             Page<FixturesDTO> fixtures = fixtureService.findAllByDynamicCriteria(params, 0, 60);
             return new ResponseEntity<>(fixtures.getContent(), HttpStatus.OK);
         }
     }
-    @GetMapping("/all")
-    public ResponseEntity<Page<FixturesDTO>> findAllByDynamicCriteria(@RequestParam Map<String, String> params,
-                                                                      @RequestParam(defaultValue = "0") int page,
-                                                                      @RequestParam(defaultValue = "60") int size) {
-        Page<FixturesDTO> partidos = fixtureService.findAllByDynamicCriteria(params, page, size);
-        return new ResponseEntity<>(partidos, HttpStatus.OK);
-    }
 
-    @GetMapping("/today")
-    public ResponseEntity<List<FixturesDTO>> findAllMatchsToday() {
-        List<FixturesDTO> fixtures = fixtureService.getFixturesForToday();
-        return new ResponseEntity<>(fixtures, HttpStatus.OK);
-    }
-
-    @GetMapping("/specific-dates")
-    public ResponseEntity<List<FixturesDTO>> getFixturesForSpecificDates(@RequestParam List<String> dates) {
-        List<LocalDate> dateObjects = dates.stream()
-                .map(LocalDate::parse)
-                .collect(Collectors.toList());
-
-        List<FixturesDTO> fixtures = fixtureService.getFixturesForSpecificDates(dateObjects);
-        return new ResponseEntity<>(fixtures, HttpStatus.OK);
-    }
     @GetMapping("{matchId}")
     public ResponseEntity<FixturesDTO> findById(@PathVariable("matchId") String matchId) {
         try {

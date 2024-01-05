@@ -53,6 +53,11 @@ public class FixturesServiceImpl implements FixtureService {
     }
 
     @Override
+    public List<FixturesDTO> getFixturesForTomorrow() {
+        return fixturesDomainService.getFixturesForTomorrow();
+    }
+
+    @Override
     public List<FixturesDTO> getFixturesForSpecificDates(List<LocalDate> dates) {
         return fixturesDomainService.getFixturesForSpecificDates(dates);
     }

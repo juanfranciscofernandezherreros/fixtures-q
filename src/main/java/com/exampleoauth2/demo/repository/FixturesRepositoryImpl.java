@@ -32,7 +32,7 @@ public class FixturesRepositoryImpl {
     private Query buildQuery(Map<String, String> dynamicCriteria) {
         Query query = new Query();
         // Verificar si hay dos entradas en el HashMap
-        if (dynamicCriteria.size() == 2 && dynamicCriteria.containsKey("homeTeam") && dynamicCriteria.containsKey("awayTeam")) {
+        if (dynamicCriteria.containsKey("homeTeam") && dynamicCriteria.containsKey("awayTeam")) {
             // Obtener los dos valores del Map
             Iterator<String> iterator = dynamicCriteria.values().iterator();
             String teamName1 = iterator.next();
