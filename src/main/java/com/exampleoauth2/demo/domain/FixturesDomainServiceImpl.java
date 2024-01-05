@@ -1,6 +1,7 @@
 package com.exampleoauth2.demo.domain;
 
 import com.exampleoauth2.demo.dao.FixturesDAO;
+import com.exampleoauth2.demo.dao.FixturesPKDAO;
 import com.exampleoauth2.demo.dto.FixturesDTO;
 import com.exampleoauth2.demo.exception.MyEntityNotFoundException;
 import com.exampleoauth2.demo.mapper.FixturesMapper;
@@ -38,7 +39,14 @@ public class FixturesDomainServiceImpl implements FixturesDomainService {
     @Override
     public void deleteByIds(List<String> matchIds) {
         log.info("Deleting fixtures by matchIds: {}", matchIds);
-        fixturesRepository.deleteByMatchIdIn(matchIds);
+        List<FixturesPKDAO> fixturesPKList = matchIds.stream()
+                .map(matchId -> {
+                    FixturesPKDAO fixturesPKDAO = new FixturesPKDAO();
+                    fixturesPKDAO.setMatchId(matchId);
+                    return fixturesPKDAO;
+                })
+                .collect(Collectors.toList());
+        fixturesRepository.deleteAllById(fixturesPKList);
     }
 
     @Override
@@ -51,8 +59,9 @@ public class FixturesDomainServiceImpl implements FixturesDomainService {
     @Override
     public FixturesDTO findById(String matchId) {
         log.info("Finding fixture by matchId: {}", matchId);
-        Optional<FixturesDAO> optionalFixturesDAO = fixturesRepository.findByMatchId(matchId);
-        // Use orElseThrow to throw EntityNotFoundException if the entity is not present
+        FixturesPKDAO fixturesPKDAO = new FixturesPKDAO();
+        fixturesPKDAO.setMatchId(matchId);
+        Optional<FixturesDAO> optionalFixturesDAO = fixturesRepository.findById(fixturesPKDAO);
         FixturesDAO fixturesDAO = optionalFixturesDAO.orElseThrow(() ->
                 new MyEntityNotFoundException("Fixtures with matchId " + matchId + " not found"));
         // Map the FixturesDAO to a FixturesDTO and return it

@@ -37,8 +37,7 @@ public class FixturesRepositoryImpl {
             Iterator<String> iterator = dynamicCriteria.values().iterator();
             String teamName1 = iterator.next();
             String teamName2 = iterator.next();
-            // Agregar la condición de $or: [ { homeTeam: "Valencia" }, { awayTeam: "Valencia" } ]
-            if(teamName1.equals(teamName2)){
+            if (teamName1.equals(teamName2)) {
                 query.addCriteria(new Criteria().orOperator(
                         Criteria.where("homeTeam").is(teamName1),
                         Criteria.where("awayTeam").is(teamName2)
@@ -49,17 +48,19 @@ public class FixturesRepositoryImpl {
                         Criteria.where("awayTeam").is(teamName2)
                 ));
             }
+        }
 
-        } else {
-            // Agregar la condición de $and: [ { homeTeam: "Valencia" }, { awayTeam: "Granada" } ]
-            for (Map.Entry<String, String> entry : dynamicCriteria.entrySet()) {
-                String fieldName = entry.getKey();
-                String value = entry.getValue();
-                Criteria criteria = Criteria.where(fieldName).is(value);
-                query.addCriteria(criteria);
-            }
+        // Verificar si "country" está presente y agregar la condición correspondiente
+        if (dynamicCriteria.containsKey("country")) {
+            query.addCriteria(Criteria.where("country").is(dynamicCriteria.get("country")));
+        }
+
+        // Verificar si "league" está presente y agregar la condición correspondiente
+        if (dynamicCriteria.containsKey("league")) {
+            query.addCriteria(Criteria.where("league").is(dynamicCriteria.get("league")));
         }
 
         return query;
     }
+
 }

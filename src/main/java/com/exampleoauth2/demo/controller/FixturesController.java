@@ -45,18 +45,12 @@ public class FixturesController {
 
     @GetMapping("{matchId}")
     public ResponseEntity<FixturesDTO> findById(@PathVariable("matchId") String matchId) {
-        try {
-            FixturesDTO fixture = fixtureService.findMatchByMatchId(matchId);
-            return new ResponseEntity<>(fixture, HttpStatus.OK);
-        } catch (MyEntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        FixturesDTO fixture = fixtureService.findMatchByMatchId(matchId);
+        if (fixture == null) {
+            throw new MyEntityNotFoundException("Equipo no encontrado con el ID: " + matchId);
         }
+        return new ResponseEntity<>(fixture, HttpStatus.OK);
     }
-
-
-
 
     @PostMapping
     public ResponseEntity<List<FixturesDTO>> saveAll(@RequestBody List<FixturesDTO> fixturesList) {

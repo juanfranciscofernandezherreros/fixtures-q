@@ -22,13 +22,14 @@ public interface FixturesMapper {
     @Mappings({
             @Mapping(target = "eventTime", expression = "java(mapToString(fixturesDAO.getEventTime()))")
     })
+    @Mapping(source = "fixturesPKDAO.matchId", target = "matchId")
     FixturesDTO mapToDTO(FixturesDAO fixturesDAO);
-
     List<FixturesDTO> mapListToDTO(List<FixturesDAO> fixturesDAOList);
 
     @Mappings({
             @Mapping(target = "eventTime", expression = "java(mapToInstant(fixturesDTO.getEventTime()))")
     })
+    @Mapping(source = "matchId", target = "fixturesPKDAO.matchId")
     FixturesDAO mapToDAO(FixturesDTO fixturesDTO);
 
     List<FixturesDAO> mapListToDAO(List<FixturesDTO> fixturesDTOList);
