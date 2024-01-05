@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +46,16 @@ public class FixturesServiceImpl implements FixtureService {
     public Page<FixturesDTO> findAllByDynamicCriteria(Map<String, String> queryParams,int page, int size) {
         return fixturesDomainService.findAllByDynamicCriteria(queryParams,page,size);
     }
+
+    @Override
+    public List<FixturesDTO> getFixturesForToday() {
+        return fixturesDomainService.getFixturesForToday();
+    }
+
+    @Override
+    public List<FixturesDTO> getFixturesForSpecificDates(List<LocalDate> dates) {
+        return fixturesDomainService.getFixturesForSpecificDates(dates);
+    }
+
 
 }

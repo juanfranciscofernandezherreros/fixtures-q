@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,4 +64,25 @@ public class FixturesDomainServiceImpl implements FixturesDomainService {
         log.info("Finding fixtures by dynamic criteria: {}, page: {}, size: {}", queryParams, page, size);
         return fixturesMapper.mapToPageDTO(fixturesRepositoryImpl.findAllByDynamicCriteriaWithPagination(queryParams, page, size));
     }
+
+    @Override
+    public List<FixturesDTO> getFixturesForToday() {
+        LocalDateTime todayStart = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime todayEnd = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        return fixturesMapper.mapListToDTO(fixturesRepository.findByEventTimeBetween(todayStart, todayEnd));
+    }
+
+    @Override
+    public List<FixturesDTO> getFixturesForSpecificDates(List<LocalDate> dates) {
+        List<FixturesDTO> fixtures = new ArrayList<>();
+        for (LocalDate date : dates) {
+            LocalDateTime startOfDay = date.atStartOfDay();
+            LocalDateTime endOfDay = date.atTime(23, 59, 59);
+            fixtures.addAll(fixturesMapper.mapListToDTO(fixturesRepository.findByEventTimeBetween(startOfDay, endOfDay)));
+        }
+        return fixtures;
+    }
+
+
+
 }
