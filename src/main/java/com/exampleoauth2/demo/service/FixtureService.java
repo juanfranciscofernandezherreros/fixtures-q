@@ -25,4 +25,5 @@ public interface FixtureService {
 
     public List<FixturesDTO> getFixturesForSpecificDates(List<LocalDate> dates);
 
+    List<FixturesDTO> getFixturesForYesterday();
 }

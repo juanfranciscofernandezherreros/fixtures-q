@@ -37,6 +37,9 @@ public class FixturesController {
         } else if (params.containsKey("tomorrow")) {
             List<FixturesDTO> fixtures = fixtureService.getFixturesForTomorrow();
             return new ResponseEntity<>(fixtures, HttpStatus.OK);
+        } else if (params.containsKey("yesterday")) {
+            List<FixturesDTO> fixtures = fixtureService.getFixturesForYesterday();
+            return new ResponseEntity<>(fixtures, HttpStatus.OK);
         } else {
             Page<FixturesDTO> fixtures = fixtureService.findAllByDynamicCriteria(params, 0, 60);
             return new ResponseEntity<>(fixtures.getContent(), HttpStatus.OK);

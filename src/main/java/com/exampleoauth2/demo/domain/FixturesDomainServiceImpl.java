@@ -100,6 +100,12 @@ public class FixturesDomainServiceImpl implements FixturesDomainService {
         return fixtures;
     }
 
+    @Override
+    public List<FixturesDTO> getFixturesForYesterday() {
+        LocalDateTime tomorrowStart = LocalDateTime.now().plusDays(-1).withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime tomorrowEnd = LocalDateTime.now().plusDays(-1).withHour(23).withMinute(59).withSecond(59);
+        return fixturesMapper.mapListToDTO(fixturesRepository.findByEventTimeBetween(tomorrowStart, tomorrowEnd));
+    }
 
 
 }
